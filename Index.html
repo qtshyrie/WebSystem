@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Library System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Lumina Lib</h2>
+            <ul>
+                <a href="Index.html"><li class="active">Dashboard</li></a>
+                <a href="LessonCatalog.html"><li>Lessons Catalog</li></a>
+                <a href="Quizzes.html"><li>Quizzes</li></a>
+                <a href="Settings.html"><li>Settings</li></a>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header>
+                <h1>Dashboard</h1>
+                <button class="add-btn">+ Add New Book</button>
+            </header>
+
+            <section class="stats">
+                <div class="card">Total Materials: 40</div>
+                <div class="card">Quizzes: 30</div>
+                <div class="card">Done: 12</div>
+            </section>
+
+            <table class="book-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#1021</td>
+                        <td>The Great Gatsby</td>
+                        <td>F. Scott Fitzgerald</td>
+                        <td>Available</td>
+                        <td><button class="edit-btn">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>#1022</td>
+                        <td>Project Hail Mary</td>
+                        <td>Andy Weir</td>
+                        <td>Issued</td>
+                        <td><button class="not-edit-btn">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>#1023</td>
+                        <td>Dune</td>
+                        <td>Frank Herbert</td>
+                        <td>Available</td>
+                        <td><button class="edit-btn">Edit</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

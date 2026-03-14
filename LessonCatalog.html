@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Library System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Lumina Lib</h2>
+            <ul>
+                <a href="Index.html"><li>Dashboard</li></a>
+                <a href="LessonCatalog.html"><li class="active">Lessons Catalog</li></a>
+                <a href="Quizzes.html"><li>Quizzes</li></a>
+                <a href="Settings.html"><li>Settings</li></a>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header>
+                <h1>Lessons Catalog</h1>
+            </header>
+
+            <section class="stats">
+                <div class="card">Total Books: 1,240</div>
+                <div class="card">Issued: 85</div>
+                <div class="card">Overdue: 12</div>
+            </section>
+
+            <table class="book-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="TBody"></tbody>
+            </table>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
