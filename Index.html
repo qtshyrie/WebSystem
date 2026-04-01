@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina Library System</title>
+    <title>OneAces' Library</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <nav class="sidebar">
-            <h2>Lumina Lib</h2>
+            <h2>OneAces' Library</h2>
             <ul>
                 <a href="Index.html"><li class="active">Dashboard</li></a>
                 <a href="LessonCatalog.html"><li>Lessons Catalog</li></a>
@@ -20,52 +21,145 @@
 
         <main class="main-content">
             <header>
-                <h1>Dashboard</h1>
-                <button class="add-btn">+ Add New Book</button>
+                <div>
+                    <h1> Dashboard</h1>
+                    <p class="subtitle">Overview of library performance and usage</p>
+                </div>
+                <div class="header-actions">
+                    <button class="add-btn">+ Add New Book</button>
+                    <select class="period-selector">
+                        <option>30 Days</option>
+                        <option>90 Days</option>
+                        <option>Year</option>
+                    </select>
+                </div>
             </header>
 
-            <section class="stats">
-                <div class="card">Total Materials: 40</div>
-                <div class="card">Quizzes: 30</div>
-                <div class="card">Done: 12</div>
+            <!-- KPI Cards -->
+            <section class="kpi-grid">
+                <div class="kpi-card primary">
+                    <div class="kpi-icon">📚</div>
+                    <div class="kpi-content">
+                        <h3>1,247</h3>
+                        <p>Total Materials</p>
+                        <span class="trend positive">+12% from last month</span>
+                    </div>
+                </div>
+                <div class="kpi-card success">
+                    <div class="kpi-icon">✅</div>
+                    <div class="kpi-content">
+                        <h3>892</h3>
+                        <p>Available</p>
+                        <span class="trend positive">+8%</span>
+                    </div>
+                </div>
+                <div class="kpi-card warning">
+                    <div class="kpi-icon">📖</div>
+                    <div class="kpi-content">
+                        <h3>355</h3>
+                        <p>Issued</p>
+                        <span class="trend negative">-5%</span>
+                    </div>
+                </div>
+                <div class="kpi-card danger">
+                    <div class="kpi-icon">📊</div>
+                    <div class="kpi-content">
+                        <h3>4.8</h3>
+                        <p>Avg Rating</p>
+                        <span class="trend positive">+0.2</span>
+                    </div>
+                </div>
             </section>
 
-            <table class="book-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#1021</td>
-                        <td>The Great Gatsby</td>
-                        <td>F. Scott Fitzgerald</td>
-                        <td>Available</td>
-                        <td><button class="edit-btn">Edit</button></td>
-                    </tr>
-                    <tr>
-                        <td>#1022</td>
-                        <td>Project Hail Mary</td>
-                        <td>Andy Weir</td>
-                        <td>Issued</td>
-                        <td><button class="not-edit-btn">Edit</button></td>
-                    </tr>
-                    <tr>
-                        <td>#1023</td>
-                        <td>Dune</td>
-                        <td>Frank Herbert</td>
-                        <td>Available</td>
-                        <td><button class="edit-btn">Edit</button></td>
-                    </tr>
-                </tbody>
-            </table>
+            <!-- Charts Section -->
+            <section class="charts-grid">
+                <div class="chart-card">
+                    <h3>Topics</h3>
+                    <canvas id="usageChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Quizzes</h3>
+                    <canvas id="statusChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Top Categories</h3> // diko alam ano ilalagay dito boi //
+                    <canvas id="categoryChart"></canvas>
+                </div>
+                <div class="chart-card full-width">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-feed">
+                        <div class="activity-item">
+                            <span class="activity-icon">📖</span>
+                            <div class="activity-content">
+                                <strong>Project Hail Mary</strong> issued to John Doe
+                                <span class="activity-time">2 mins ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-icon">✅</span>
+                            <div class="activity-content">
+                                <strong>The Great Gatsby</strong> returned
+                                <span class="activity-time">15 mins ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-icon">⭐</span>
+                            <div class="activity-content">
+                                <strong>Dune</strong> rated 5 stars by Sarah Wilson
+                                <span class="activity-time">1 hour ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Books Table -->
+            <section class="table-section">
+                <h3>Recent Materials</h3>
+                <div class="table-container">
+                    <table class="book-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Status</th>
+                                <th>Rating</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#1021</td>
+                                <td>The Great Gatsby</td>
+                                <td>F. Scott Fitzgerald</td>
+                                <td><span class="status available">Available</span></td>
+                                <td><span class="rating">★★★★☆ 4.2</span></td>
+                                <td><button class="edit-btn">Edit</button></td>
+                            </tr>
+                            <tr>
+                                <td>#1022</td>
+                                <td>Project Hail Mary</td>
+                                <td>Andy Weir</td>
+                                <td><span class="status issued">Issued</span></td>
+                                <td><span class="rating">★★★★★ 4.9</span></td>
+                                <td><button class="not-edit-btn">Edit</button></td>
+                            </tr>
+                            <tr>
+                                <td>#1023</td>
+                                <td>Dune</td>
+                                <td>Frank Herbert</td>
+                                <td><span class="status available">Available</span></td>
+                                <td><span class="rating">★★★★★ 4.8</span></td>
+                                <td><button class="edit-btn">Edit</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         </main>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
