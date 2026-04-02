@@ -10,13 +10,23 @@
 <body>
     <div class="container">
         <nav class="sidebar">
-            <h2>Lumina Lib</h2>
-            <ul>
+            <h2>OneAces' Library</h2>
+
+    
+    <div class="sidebar-profile" onclick="goProfile()">
+        <div class="avatar" id="avatar"></div>
+        <span id="userDisplay"></span>
+    </div>
+            <ul class="menu">
                 <a href="Index.html"><li>Dashboard</li></a>
                 <a href="LessonCatalog.html"><li>Lessons Catalog</li></a>
                 <a href="Quizzes.html"><li>Quizzes</li></a>
                 <a href="Settings.html"><li class="active">Settings</li></a>
             </ul>
+
+            <div class="sidebar-logout">
+        <button onclick="logout()">Logout</button>
+    </div>
         </nav>
 
         <main class="main-content">

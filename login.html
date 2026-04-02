@@ -133,7 +133,7 @@
             <span onclick="togglePassword()">👁️</span>
         </div>
 
-        <button onclick="login()">Login</button>
+        <button>Login</button>
 
         <p class="error" id="errorMsg"></p>
 
@@ -149,28 +149,7 @@ function togglePassword() {
     input.type = input.type === "password" ? "text" : "password";
 }
 
-function login() {
-    const user = document.getElementById("username").value.trim();
-    const pass = document.getElementById("password").value.trim();
 
-    const storedData = localStorage.getItem(user);
-
-    if (!storedData) {
-        document.getElementById("errorMsg").textContent = "User not found";
-        return;
-    }
-
-    const parsed = JSON.parse(storedData);
-
-    if (parsed.password === pass) {
-        sessionStorage.setItem("isLoggedIn", "true");
-        sessionStorage.setItem("currentUser", user);
-        sessionStorage.setItem("fullName", parsed.firstName + " " + parsed.lastName);
-        window.location.href = "Index.html";
-    } else {
-        document.getElementById("errorMsg").textContent = "Invalid password";
-    }
-}
 </script>
 
 </body>

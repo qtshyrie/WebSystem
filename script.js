@@ -1,3 +1,12 @@
+function logout() {
+        sessionStorage.clear();
+        window.location.href = "landing.html";
+    }
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', function(){
     
     const LessonCatalog = [

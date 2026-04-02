@@ -8,38 +8,47 @@
     <script src="script.js"></script>
 </head>
 <body>
-    <div class="container">
-        <nav class="sidebar">
-            <h2>Lumina Lib</h2>
-            <ul>
-                <a href="Index.html"><li>Dashboard</li></a>
-                <a href="LessonCatalog.html"><li>Lessons Catalog</li></a>
-                <a href="Quizzes.html"><li class="active">Quizzes</li></a>
-                <a href="Settings.html"><li>Settings</li></a>
-            </ul>
-        </nav>
+    <nav class="sidebar">
+            
+        <h2>OneAces' Library</h2>
+        <div class="sidebar-profile" onclick="goProfile()">
+            <div class="avatar" id="avatar"></div>
+            <span id="userDisplay"></span>
+        </div>
+        <div>
+                <ul class="menu">
+                    <a href="Index.html"><li>Dashboard</li></a>
+                    <a href="LessonCatalog.html"><li>Lessons Catalog</li></a>
+                    <a href="Quizzes.html"><li class="active">Quizzes</li></a>
+                    <a href="Settings.html"><li>Settings</li></a>
+                </ul>
+        </div>
+        <div class="sidebar-logout">
+                <button onclick="logout()">Logout</button>
+        </div>
+    </nav>
 
-        <main class="main-content">
-            <header>
-                <h1>Quizzes</h1>
-            </header>
+    <main class="main-content">
+        <header>
+            <h1>Quizzes</h1>
+        </header>
 
-            <section class="stats">
-                <div class="card">Total Books: 1,240</div>
-                <div class="card">Issued: 85</div>
-                <div class="card">Overdue: 12</div>
-            </section>
+        <section class="stats">
+            <div class="card">Total Books: 1,240</div>
+            <div class="card">Issued: 85</div>
+            <div class="card">Overdue: 12</div>
+        </section>
 
-            <table class="book-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Quiz Master</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+        <table class="book-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Quiz Master</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
                 <tbody>
                     <tr>
                         <td>#1021</td>
@@ -63,9 +72,9 @@
                         <td><button class="edit-btn">Quiz Me</button></td>
                     </tr>
                 </tbody>
-            </table>
-        </main>
-    </div>
+        </table>
+    </main>
+    
     <script src="script.js"></script>
 </body>
 </html>

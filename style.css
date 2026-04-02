@@ -16,7 +16,7 @@
     align-items: center;
     gap: 10px;
 }
-
+button
 /* HOME BUTTON (VISIBLE + GLOW) */
 .home-btn {
     text-decoration: none;
@@ -41,6 +41,12 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100vh;
+    overflow: hidden;
 }
 
 /* PROFILE */
@@ -130,6 +136,9 @@
     padding: 7px;
     border-radius: 6px;
 }
+html,body{
+    height: 100%;
+    overflow: hidden; 
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -143,10 +152,6 @@ body {
 a{
     text-decoration: none;
     color: white;
-}
-.container {
-    display: flex;
-    min-height: 100vh;
 }
 
 .sidebar {
@@ -179,7 +184,10 @@ a{
 }
 
 .main-content {
-    flex: 1;
+    margin-left: 260px; 
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden; 
     padding: 40px;
 }
 
@@ -455,5 +463,11 @@ header {
     .header-actions {
         flex-direction: column;
         gap: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
     }
 }

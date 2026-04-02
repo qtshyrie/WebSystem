@@ -2,80 +2,63 @@
 <html lang="en">
 <head>
 
-   <script>
-    if (!sessionStorage.getItem("visitedLanding")) {
-        sessionStorage.setItem("visitedLanding", "true");
-        window.location.href = "landing.html";
-    }
-
-</script>
-
-
-<script>
-    if (!sessionStorage.getItem("isLoggedIn")) {
-        window.location.href = "login.html";
-    }
-</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneAces' Library</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OneAces' Library</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
     <div class="container">
        <nav class="sidebar">
+            <h2>OneAces' Library</h2>
+  
+            <div class="sidebar-profile" onclick="goProfile()">
+                <div class="avatar" id="avatar"></div>
+                <span id="userDisplay"></span>
+            </div>
+ 
+            <ul class="menu">
+                <a href="Index.html"><li class="active">Dashboard</li></a>
+                <a href="LessonCatalog.html"><li>Lessons Catalog</li></a>
+                <a href="Quizzes.html"><li>Quizzes</li></a>
+                <a href="Settings.html"><li>Settings</li></a>
+            </ul>
 
-    <h2>OneAces' Library</h2>
+            <div class="sidebar-logout">
+                <button onclick="logout()">Logout</button>
+            </div>
 
-    
-    <div class="sidebar-profile" onclick="goProfile()">
-        <div class="avatar" id="avatar">M</div>
-        <span id="userDisplay">Matthew James</span>
-    </div>
-
-    
-    <ul class="menu">
-        <a href="Index.html"><li class="active">Dashboard</li></a>
-        <a href="LessonCatalog.html"><li>Lessons Catalog</li></a>
-        <a href="Quizzes.html"><li>Quizzes</li></a>
-        <a href="Settings.html"><li>Settings</li></a>
-    </ul>
-
-    
-    <div class="sidebar-logout">
-        <button onclick="logout()">Logout</button>
-    </div>
-
-</nav>
+        </nav>
 
         <main class="main-content"> 
             <header class="topbar">
 
-    <div>
-        <h1>Dashboard</h1>
-        <p class="subtitle">Overview of library performance and usage</p>
-    </div>
+            <div>
+                <h1>Dashboard</h1>
+                <p class="subtitle">Overview of library performance and usage</p>
+            </div>
 
-    <div class="topbar-right">
+            <div class="topbar-right">
 
-        
+                
 
-        <div class="actions-group">
-            
-            <button class="add-btn">+ Add New Book</button>
+                <div class="actions-group">
+                    
+                    <button class="add-btn">+ Add New Book</button>
 
-            <select class="period-selector">
-                <option>30 Days</option>
-                <option>90 Days</option>
-                <option>Year</option>
-            </select>
-        </div>
+                    <select class="period-selector">
+                        <option>30 Days</option>
+                        <option>90 Days</option>
+                        <option>Year</option>
+                    </select>
+                </div>
 
-    </div>
+            </div>
 
-</header>
+            </header>
             <!-- KPI Cards -->
             <section class="kpi-grid">
                 <div class="kpi-card primary">
@@ -202,53 +185,5 @@
     </div>
 
     <script src="script.js"></script>
-        
-    <script src="script.js"></script>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const user = sessionStorage.getItem("currentUser");
-
-        if (user) {
-            document.getElementById("userDisplay").textContent = "" + user;
-        }
-    });
-
-    function logout() {
-        sessionStorage.clear();
-        window.location.href = "login.html";
-    }
-    </script>
-
-</body>
-</html>
-<!-- your other scripts (if any) -->
-<script src="script.js"></script>
-
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const fullName = sessionStorage.getItem("fullName");
-
-    if (fullName) {
-        document.getElementById("userDisplay").textContent = fullName;
-        document.getElementById("avatar").textContent = fullName.charAt(0).toUpperCase();
-    }
-
-});
-
-function logout() {
-    sessionStorage.clear();
-    window.location.href = "login.html";
-}
-
-function goProfile() {
-    window.location.href = "profile.html";
-}
-</script>
-
-</body>
-</html>
 </body>
 </html>

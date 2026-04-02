@@ -85,7 +85,7 @@
             cursor: pointer;
         }
 
-        button {
+        button, .submit {
             width: 100%;
             padding: 12px;
             background: linear-gradient(90deg, #38bdf8, #818cf8);
@@ -95,9 +95,9 @@
             font-weight: 600;
         }
 
-        button:hover {
+        button:hover, .submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.4);
+            box-shadow: 0 5px 20px #3498db;
         }
 
         .error {
@@ -129,35 +129,37 @@
 
 <div class="container">
     <div class="box">
+        <form action="DBconnection.php" method="post">
         <h2>Create Account</h2>
 
         <div class="row">
-            <input id="firstName" placeholder="First Name">
-            <input id="lastName" placeholder="Last Name">
+            <input id="firstName" placeholder="First Name" name="firstname">
+            <input id="lastName" placeholder="Last Name" name="lastname">
         </div>
 
-        <input id="email" type="email" placeholder="Email">
-        <input id="username" placeholder="Username">
-        <input id="birthday" type="date">
-        <input id="contact" placeholder="Contact Number">
+        <input id="email" type="email" placeholder="Email" name="email">
+        <input id="username" placeholder="Username" name="username">
+        <input id="birthday" type="date" name="birthday">
+        <input id="contact" placeholder="Contact Number" name="contact">
 
         <div class="password-wrapper">
-            <input type="password" id="password" placeholder="Password">
+            <input type="password" id="password" placeholder="Password" name="password">
             <span onclick="togglePassword('password')">👁️</span>
         </div>
 
         <div class="password-wrapper">
-            <input type="password" id="confirm" placeholder="Confirm Password">
+            <input type="password" id="confirm" name="confirm" placeholder="Confirm Password">
             <span onclick="togglePassword('confirm')">👁️</span>
         </div>
 
-        <button onclick="signup()">Sign Up</button>
+        <input type="submit" class="submit" value="Sign Up">
 
         <p class="error" id="errorMsg"></p>
 
         <p class="footer-text">
             Already have an account? <a href="login.html">Login</a>
         </p>
+    </form>
     </div>
 </div>
 
@@ -167,45 +169,41 @@ function togglePassword(id) {
     input.type = input.type === "password" ? "text" : "password";
 }
 
-function signup() {
-    const user = document.getElementById("username").value.trim();
-    const pass = document.getElementById("password").value.trim();
-    const confirm = document.getElementById("confirm").value.trim();
+// ✅ Validates all fields before submitting
+function validateForm() {
+    const errorMsg = document.getElementById('errorMsg');
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirm').value;
+    const contact = document.getElementById('contact').value;
 
-    const first = document.getElementById("firstName").value.trim();
-    const last = document.getElementById("lastName").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const birthday = document.getElementById("birthday").value;
-    const contact = document.getElementById("contact").value.trim();
-
-    if (!user || !pass || !confirm || !first || !last || !email || !birthday || !contact) {
-        document.getElementById("errorMsg").textContent = "Please fill all fields";
-        return;
+    // Check empty fields
+    const fields = ['firstName', 'lastName', 'email', 'username', 'birthday', 'contact', 'password', 'confirm'];
+    for (let id of fields) {
+        if (!document.getElementById(id).value.trim()) {
+            errorMsg.textContent = "Please fill in all fields.";
+            return false;
+        }
     }
 
-    if (pass !== confirm) {
-        document.getElementById("errorMsg").textContent = "Passwords do not match";
-        return;
+    // Check password match
+    if (password !== confirm) {
+        errorMsg.textContent = "Passwords do not match!";
+        return false;
     }
 
-    if (localStorage.getItem(user)) {
-        document.getElementById("errorMsg").textContent = "Username already exists";
-        return;
+    // Check password length
+    if (password.length < 6) {
+        errorMsg.textContent = "Password must be at least 6 characters.";
+        return false;
     }
 
-    const userData = {
-        firstName: first,
-        lastName: last,
-        email: email,
-        birthday: birthday,
-        contact: contact,
-        password: pass
-    };
+    // Check contact is numbers only
+    if (!/^\d+$/.test(contact)) {
+        errorMsg.textContent = "Contact number must contain digits only.";
+        return false;
+    }
 
-    localStorage.setItem(user, JSON.stringify(userData));
-
-    alert("Account created!");
-    window.location.href = "login.html";
+    return true;
 }
 </script>
 
