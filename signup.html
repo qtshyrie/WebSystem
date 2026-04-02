@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - OneAces</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #020617, #0f172a);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 40px;
+        }
+
+        header h1 {
+            color: #38bdf8;
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid #38bdf8;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            background: #1e293b;
+            padding: 35px;
+            border-radius: 16px;
+            width: 380px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper span {
+            position: absolute;
+            right: 10px;
+            top: 12px;
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.4);
+        }
+
+        .error {
+            color: #f87171;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>OneAces</h1>
+    <a href="landing.html">Home</a>
+</header>
+
+<div class="container">
+    <div class="box">
+        <h2>Create Account</h2>
+
+        <div class="row">
+            <input id="firstName" placeholder="First Name">
+            <input id="lastName" placeholder="Last Name">
+        </div>
+
+        <input id="email" type="email" placeholder="Email">
+        <input id="username" placeholder="Username">
+        <input id="birthday" type="date">
+        <input id="contact" placeholder="Contact Number">
+
+        <div class="password-wrapper">
+            <input type="password" id="password" placeholder="Password">
+            <span onclick="togglePassword('password')">👁️</span>
+        </div>
+
+        <div class="password-wrapper">
+            <input type="password" id="confirm" placeholder="Confirm Password">
+            <span onclick="togglePassword('confirm')">👁️</span>
+        </div>
+
+        <button onclick="signup()">Sign Up</button>
+
+        <p class="error" id="errorMsg"></p>
+
+        <p class="footer-text">
+            Already have an account? <a href="login.html">Login</a>
+        </p>
+    </div>
+</div>
+
+<script>
+function togglePassword(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === "password" ? "text" : "password";
+}
+
+function signup() {
+    const user = document.getElementById("username").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const confirm = document.getElementById("confirm").value.trim();
+
+    const first = document.getElementById("firstName").value.trim();
+    const last = document.getElementById("lastName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const birthday = document.getElementById("birthday").value;
+    const contact = document.getElementById("contact").value.trim();
+
+    if (!user || !pass || !confirm || !first || !last || !email || !birthday || !contact) {
+        document.getElementById("errorMsg").textContent = "Please fill all fields";
+        return;
+    }
+
+    if (pass !== confirm) {
+        document.getElementById("errorMsg").textContent = "Passwords do not match";
+        return;
+    }
+
+    if (localStorage.getItem(user)) {
+        document.getElementById("errorMsg").textContent = "Username already exists";
+        return;
+    }
+
+    const userData = {
+        firstName: first,
+        lastName: last,
+        email: email,
+        birthday: birthday,
+        contact: contact,
+        password: pass
+    };
+
+    localStorage.setItem(user, JSON.stringify(userData));
+
+    alert("Account created!");
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
