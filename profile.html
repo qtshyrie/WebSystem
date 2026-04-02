@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - OneAces</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #020617, #0f172a);
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 40px;
+        }
+
+        header h1 {
+            color: #38bdf8;
+        }
+
+        header a {
+            text-decoration: none;
+            color: white;
+            border: 1px solid #38bdf8;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 16px;
+            width: 400px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .card h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .success {
+            text-align: center;
+            color: #4ade80;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Profile</h1>
+    <a href="Index.html">Dashboard</a>
+</header>
+
+<div class="container">
+    <div class="card">
+        <h2>Edit Profile</h2>
+
+        <input id="firstName" placeholder="First Name">
+        <input id="lastName" placeholder="Last Name">
+        <input id="email" placeholder="Email">
+        <input id="contact" placeholder="Contact Number">
+
+        <button onclick="saveProfile()">Save Changes</button>
+
+        <p class="success" id="msg"></p>
+    </div>
+</div>
+
+<script>
+const user = sessionStorage.getItem("currentUser");
+const data = JSON.parse(localStorage.getItem(user));
+
+document.getElementById("firstName").value = data.firstName;
+document.getElementById("lastName").value = data.lastName;
+document.getElementById("email").value = data.email;
+document.getElementById("contact").value = data.contact;
+
+function saveProfile() {
+    data.firstName = document.getElementById("firstName").value;
+    data.lastName = document.getElementById("lastName").value;
+    data.email = document.getElementById("email").value;
+    data.contact = document.getElementById("contact").value;
+
+    localStorage.setItem(user, JSON.stringify(data));
+
+    sessionStorage.setItem("fullName", data.firstName + " " + data.lastName);
+
+    document.getElementById("msg").textContent = "Saved successfully!";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - OneAces</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #020617, #0f172a);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 40px;
+        }
+
+        header h1 {
+            color: #38bdf8;
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid #38bdf8;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            background: #1e293b;
+            padding: 35px;
+            border-radius: 16px;
+            width: 360px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper span {
+            position: absolute;
+            right: 10px;
+            top: 12px;
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.4);
+        }
+
+        .error {
+            color: #f87171;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>OneAces</h1>
+    <a href="landing.html">Home</a>
+</header>
+
+<div class="container">
+    <div class="box">
+        <h2>Login</h2>
+
+        <input id="username" placeholder="Username">
+
+        <div class="password-wrapper">
+            <input type="password" id="password" placeholder="Password">
+            <span onclick="togglePassword()">👁️</span>
+        </div>
+
+        <button onclick="login()">Login</button>
+
+        <p class="error" id="errorMsg"></p>
+
+        <p class="footer-text">
+            Don't have an account? <a href="signup.html">Sign Up</a>
+        </p>
+    </div>
+</div>
+
+<script>
+function togglePassword() {
+    const input = document.getElementById("password");
+    input.type = input.type === "password" ? "text" : "password";
+}
+
+function login() {
+    const user = document.getElementById("username").value.trim();
+    const pass = document.getElementById("password").value.trim();
+
+    const storedData = localStorage.getItem(user);
+
+    if (!storedData) {
+        document.getElementById("errorMsg").textContent = "User not found";
+        return;
+    }
+
+    const parsed = JSON.parse(storedData);
+
+    if (parsed.password === pass) {
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("currentUser", user);
+        sessionStorage.setItem("fullName", parsed.firstName + " " + parsed.lastName);
+        window.location.href = "Index.html";
+    } else {
+        document.getElementById("errorMsg").textContent = "Invalid password";
+    }
+}
+</script>
+
+</body>
+</html>
