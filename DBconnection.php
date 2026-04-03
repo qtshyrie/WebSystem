@@ -1,30 +1,35 @@
 <?php
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $email = $_POST['email'];
-    $username = $_POST['username'];
-    $birthday = $_POST['birthday'];
-    $contacts = $_POST['contact'];
+include("conn.php");
 
-    // Check BEFORE hashing
-    if ($_POST['password'] !== $_POST['confirm']) {
-        die("Passwords do not match!");
-    }
+$firstname = $_POST['firstname'];
+$lastname = $_POST['lastname'];
+$email = $_POST['email'];
+$username = $_POST['username'];
+$birthday = $_POST['birthday'];
+$contacts = $_POST['contact'];
 
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+if ($_POST['password'] !== $_POST['confirm']) {
+    die("<script>alert('Passwords do not match!'); window.history.back();</script>");
+}
 
-    $conn = new mysqli('localhost', 'root', '', 'websystem');
-    if($conn->connect_error){
-        die('Connection Failed : ' . $conn->connect_error);
-    } else {
-        // ✅ Changed "registration" to "accounts", and "contact" to "contacts"
-        $stmt = $conn->prepare("INSERT INTO accounts(firstname, lastname, email, username, password, birthday, contacts)
-        VALUES(?, ?, ?, ?, ?, ?, ?)");
-        
-        $stmt->bind_param("sssssss", $firstname, $lastname, $email, $username, $password, $birthday, $contacts);
-        $stmt->execute();
-        echo "Registration successful!";
-        $stmt->close();
-        $conn->close();
-    }
+$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+$stmt = $conn->prepare("INSERT INTO accounts(firstname, lastname, email, username, password, birthday, contacts) VALUES(?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("sssssss", $firstname, $lastname, $email, $username, $password, $birthday, $contacts);
+
+if ($stmt->execute()) {
+    echo "<script>
+        alert('Registration successful!');
+        window.location.href = 'login.html';
+    </script>";
+} else {
+    echo "<script>
+        alert('Registration failed. Try again!');
+        window.history.back();
+    </script>";
+}
+
+$stmt->close();
+$conn->close();
+exit();
 ?>

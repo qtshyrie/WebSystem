@@ -112,9 +112,11 @@
             color: #38bdf8;
             text-decoration: none;
         }
+        
     </style>
-</head>
 
+    
+</head>
 <body>
 
 <header>
@@ -124,33 +126,38 @@
 
 <div class="container">
     <div class="box">
-        <h2>Login</h2>
+        <form action="login_process.php" method="post">
+            <h2>Login</h2>
 
-        <input id="username" placeholder="Username">
+            <input id="username" placeholder="Username" name="Username">
 
-        <div class="password-wrapper">
-            <input type="password" id="password" placeholder="Password">
-            <span onclick="togglePassword()">👁️</span>
-        </div>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Password" name="Password">
+                <span onclick="togglePassword('password')">👁️</span>
+            </div>
 
-        <button>Login</button>
+            <button type="submit">Login</button>
 
-        <p class="error" id="errorMsg"></p>
+            <p class="error" id="errorMsg"></p>
 
-        <p class="footer-text">
-            Don't have an account? <a href="signup.html">Sign Up</a>
-        </p>
+            <p class="footer-text">
+                Don't have an account? <a href="signup.html">Sign Up</a>
+            </p>
+        </form>
     </div>
 </div>
-
 <script>
-function togglePassword() {
-    const input = document.getElementById("password");
-    input.type = input.type === "password" ? "text" : "password";
-}
+    function togglePassword(id) {
+        const input = document.getElementById(id);
+        input.type = input.type === "password" ? "text" : "password";
+    }
 
-
+    // Show error message if redirected with ?error=incorrect
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('error') === 'incorrect') {
+        document.getElementById('errorMsg').textContent = "Username or password is incorrect!";
+    }
 </script>
-
+<script src="script.js"></script>
 </body>
 </html>
