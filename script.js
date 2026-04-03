@@ -3,7 +3,46 @@ function logout() {
         window.location.href = "landing.html";
     }
 
+function togglePassword(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === "password" ? "text" : "password";
+}
 
+function validateForm() {
+    const errorMsg = document.getElementById('errorMsg');
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirm').value;
+    const contact = document.getElementById('contact').value;
+
+    // Check empty fields
+    const fields = ['firstName', 'lastName', 'email', 'username', 'birthday', 'contact', 'password', 'confirm'];
+    for (let id of fields) {
+        if (!document.getElementById(id).value.trim()) {
+            errorMsg.textContent = "Please fill in all fields.";
+            return false;
+        }
+    }
+
+    // Check password match
+    if (password !== confirm) {
+        errorMsg.textContent = "Passwords do not match!";
+        return false;
+    }
+
+    // Check password length
+    if (password.length < 6) {
+        errorMsg.textContent = "Password must be at least 6 characters.";
+        return false;
+    }
+
+    // Check contact is numbers only
+    if (!/^\d+$/.test(contact)) {
+        errorMsg.textContent = "Contact number must contain digits only.";
+        return false;
+    }
+
+    return true;
+}
 
 
 
