@@ -3,46 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina Library System</title>
+    <title>OneAces' Library</title>
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-    <div class="container">
+    
         <nav class="sidebar">
-            <h2>Lumina Lib</h2>
-            <ul>
+            <h2>OneAces' Library</h2>
+
+    
+            <div class="sidebar-profile" onclick="goProfile()">
+                <div class="avatar" id="avatar"></div>
+                <span id="userDisplay"></span>
+            </div>
+            <ul class="menu">
                 <a href="Index.html"><li>Dashboard</li></a>
                 <a href="LessonCatalog.html"><li class="active">Lessons Catalog</li></a>
                 <a href="Quizzes.html"><li>Quizzes</li></a>
                 <a href="Settings.html"><li>Settings</li></a>
             </ul>
+
+            <div class="sidebar-logout">
+            <button onclick="logout()">Logout</button>
+            </div>
         </nav>
 
-        <main class="main-content">
-            <header>
-                <h1>Lessons Catalog</h1>
-            </header>
+    <main class="main-content">
+        <header>
+            <h1>Lessons Catalog</h1>
+        </header>
 
-            <section class="stats">
-                <div class="card">Total Books: 1,240</div>
-                <div class="card">Issued: 85</div>
-                <div class="card">Overdue: 12</div>
-            </section>
+        <section class="stats">
+            <div class="card">Total Books: 1,240</div>
+            <div class="card">Issued: 85</div>
+            <div class="card">Overdue: 12</div>
+        </section>
 
-            <table class="book-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="TBody"></tbody>
-            </table>
-        </main>
-    </div>
+        <table class="book-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="TBody"></tbody>
+        </table>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>
