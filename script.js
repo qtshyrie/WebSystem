@@ -213,54 +213,49 @@ function closeModal(id) {
 // ── INIT ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Lesson Catalog table
-    const LessonCatalog = [
-        {ID: "1021", Title: "The Great Gatsby", Author: "F. Scott Fitzgerald", Status: "Available", Action: "Available"},
-        {ID: "1022", Title: "Project Hail Mary", Author: "Andy Weir", Status: "Available", Action: "Not Available"},
-        {ID: "1023", Title: "Dune", Author: "Frank Herbert", Status: "Available", Action: "Available"},
-        {ID: "1024", Title: "Judge Stone", Author: "James Patterson, ", Status: "Available", Action: "Available"},
-        {ID: "1025", Title: "The Messenger", Author: "Lois Lowry", Status: "Available", Action: "Available"}
-    ];
-
-    const availableCount = LessonCatalog.filter(book => book.Action === "Available").length;
-
+    // ── LESSON CATALOG ────────────────────────────────────────
     const CatalogList = document.getElementById('TBody');
     if (CatalogList) {
-        LessonCatalog.forEach(function(LessonList) {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>#${LessonList.ID}</td>
-                <td>${LessonList.Title}</td>
-                <td>${LessonList.Author}</td>
-                <td>${LessonList.Status}</td>
-                <td><button class="${LessonList.Action === 'Not Available' ? 'not-edit-btn' : 'edit-btn'}">${LessonList.Action}</button></td>
-            `;
-            CatalogList.appendChild(row);
-        });
+        fetch('get_catalog.php')
+            .then(res => res.json())
+            .then(data => {
+                // Populate table
+                data.books.forEach(function(book) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>#${book.id}</td>
+                        <td>${book.title}</td>
+                        <td>${book.author}</td>
+                        <td><span class="status ${book.status.toLowerCase()}">${book.status}</span></td>
+                        <td><button class="${book.status === 'Issued' ? 'not-edit-btn' : 'edit-btn'}">${book.status === 'Issued' ? 'Not Available' : 'Available'}</button></td>
+                    `;
+                    CatalogList.appendChild(row);
+                });
+
+                // Update stat cards
+                const totalbooks = document.getElementById('totalbooks');
+                const totalavailable = document.getElementById('totalavailable');
+                if (totalbooks) totalbooks.innerHTML = "Total Lessons: " + data.total;
+                if (totalavailable) totalavailable.innerHTML = "Total Available: " + data.available;
+            })
+            .catch(err => console.error('Catalog fetch error:', err));
     }
 
-    const totalBooksindex = LessonCatalog.length;
-    const totalbooks = document.getElementById('totalbooks');
-    const totalavailable = document.getElementById('totalavailable');
-
-    totalbooks.innerHTML = "Total Lessons: " + totalBooksindex;
-    totalavailable.innerHTML = "Total Available: " + availableCount;
-
-    // Modal close on outside click
+    // ── MODAL CLOSE ───────────────────────────────────────────
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
         overlay.addEventListener('click', function(e) {
             if (e.target === this) closeModal(this.id);
         });
     });
 
-    // Login error message
+    // ── LOGIN ERROR ───────────────────────────────────────────
     const params = new URLSearchParams(window.location.search);
     if (params.get('error') === 'incorrect') {
         const el = document.getElementById('errorMsg');
         if (el) el.textContent = 'Username or password is incorrect!';
     }
 
-    // Init dashboard if on Index page
+    // ── DASHBOARD ─────────────────────────────────────────────
     if (document.getElementById('bookTableBody')) {
         updateDashboard(30);
     }
