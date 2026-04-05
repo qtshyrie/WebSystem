@@ -3,6 +3,10 @@ function logout() {
     window.location.href = "landing.html";
 }
 
+function goProfile() {
+    window.location.href = "profile.html";
+}
+
 function togglePassword(id) {
     const input = document.getElementById(id);
     input.type = input.type === "password" ? "text" : "password";

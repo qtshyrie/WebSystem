@@ -248,10 +248,6 @@ header {
     font-size: 0.85rem;
 }
 
-.available { 
-    background-color: #d4edda; 
-    color: #155724; 
-}
 .issued { 
     background-color: #f8d7da; 
     color: #721c24; 

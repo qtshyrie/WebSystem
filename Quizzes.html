@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina Library System</title>
+    <title>oneaces</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <script>
+        function goProfile() {
+            window.location.href = "profile.html";
+        }
+    </script>
 </head>
 <body>
     <nav class="sidebar">
             
-        <h2>OneAces' Library</h2>
+        <h2>OneAces</h2>
         <div class="sidebar-profile" onclick="goProfile()">
             <div class="avatar" id="avatar"></div>
             <span id="userDisplay"></span>
@@ -20,7 +25,6 @@
                     <a href="Index.html"><li>Dashboard</li></a>
                     <a href="LessonCatalog.html"><li>Lessons Catalog</li></a>
                     <a href="Quizzes.html"><li class="active">Quizzes</li></a>
-                    <a href="Settings.html"><li>Settings</li></a>
                 </ul>
         </div>
         <div class="sidebar-logout">

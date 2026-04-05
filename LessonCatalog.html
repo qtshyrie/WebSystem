@@ -8,7 +8,7 @@
 </head>
 <body>
     <nav class="sidebar">
-        <h2>OneAces' Library</h2>
+        <h2>OneAces</h2>
         <div class="sidebar-profile" onclick="goProfile()">
             <div class="avatar" id="avatar"></div>
             <span id="userDisplay"></span>
@@ -17,7 +17,6 @@
             <a href="Index.html"><li>Dashboard</li></a>
             <a href="LessonCatalog.html"><li class="active">Lessons Catalog</li></a>
             <a href="Quizzes.html"><li>Quizzes</li></a>
-            <a href="Settings.html"><li>Settings</li></a>
         </ul>
         <div class="sidebar-logout">
             <button onclick="logout()">Logout</button>
@@ -195,7 +194,11 @@
     .open-file-btn:hover { text-decoration: underline; }
     #noFileMsg p { color: #94a3b8; font-style: italic; }
     </style>
-
+        <script>
+        function goProfile() {
+            window.location.href = "profile.html";
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
