@@ -56,7 +56,7 @@ function initCharts(data) {
     statusChart = new Chart(document.getElementById('statusChart'), {
         type: 'doughnut',
         data: {
-            labels: ['Available', 'Issued', 'Pending'],
+            labels: ['Published', 'Unpublished', 'Archived'], 
             datasets: [{
                 data: data.status,
                 backgroundColor: ['#34d399', '#f87171', '#facc15']
@@ -112,10 +112,6 @@ function updateDashboard(period = 30) {
                         <td>${book.author}</td>
                         <td><span class="status ${book.status.toLowerCase()}">${book.status}</span></td>
                         <td><span class="rating">${stars} ${parseFloat(book.rating).toFixed(1)}</span></td>
-                        <td>
-                            <button class="edit-btn" onclick="openEditModal(${book.id}, '${book.title}', '${book.author}', '${book.status}', ${book.rating}, '${book.category}')">Edit</button>
-                            <button class="not-edit-btn" onclick="deleteBook(${book.id})">Delete</button>
-                        </td>
                     </tr>`;
             });
 
@@ -164,16 +160,6 @@ function addBook() {
         });
 }
 
-// ── EDIT BOOK ─────────────────────────────────────────────────
-function openEditModal(id, title, author, status, rating, category) {
-    document.getElementById('editId').value = id;
-    document.getElementById('editTitle').value = title;
-    document.getElementById('editAuthor').value = author;
-    document.getElementById('editStatus').value = status;
-    document.getElementById('editRating').value = rating;
-    document.getElementById('editCategory').value = category;
-    document.getElementById('editModal').style.display = 'flex';
-}
 
 function saveEdit() {
     const body = new FormData();
@@ -192,18 +178,6 @@ function saveEdit() {
         });
 }
 
-// ── DELETE BOOK ───────────────────────────────────────────────
-function deleteBook(id) {
-    if (!confirm('Delete this book?')) return;
-    const body = new FormData();
-    body.append('id', id);
-    fetch('delete_book.php', { method: 'POST', body })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) updateDashboard();
-            else alert('Failed to delete: ' + data.error);
-        });
-}
 
 // ── MODAL CLOSE ───────────────────────────────────────────────
 function closeModal(id) {
