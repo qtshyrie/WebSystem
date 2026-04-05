@@ -21,18 +21,9 @@ function validateForm() {
             return false;
         }
     }
-    if (password !== confirm) {
-        errorMsg.textContent = "Passwords do not match!";
-        return false;
-    }
-    if (password.length < 6) {
-        errorMsg.textContent = "Password must be at least 6 characters.";
-        return false;
-    }
-    if (!/^\d+$/.test(contact)) {
-        errorMsg.textContent = "Contact number must contain digits only.";
-        return false;
-    }
+    if (password !== confirm) { errorMsg.textContent = "Passwords do not match!"; return false; }
+    if (password.length < 6) { errorMsg.textContent = "Password must be at least 6 characters."; return false; }
+    if (!/^\d+$/.test(contact)) { errorMsg.textContent = "Contact number must contain digits only."; return false; }
     return true;
 }
 
@@ -44,11 +35,7 @@ function initCharts(data) {
         type: 'bar',
         data: {
             labels: ['Science', 'History', 'Math', 'Literature', 'Tech', 'Arts'],
-            datasets: [{
-                label: 'Books',
-                data: data.usage,
-                backgroundColor: ['#38bdf8','#818cf8','#34d399','#fb923c','#f472b6','#facc15']
-            }]
+            datasets: [{ label: 'Books', data: data.usage, backgroundColor: ['#38bdf8','#818cf8','#34d399','#fb923c','#f472b6','#facc15'] }]
         },
         options: { responsive: true, plugins: { legend: { display: false } } }
     });
@@ -56,11 +43,10 @@ function initCharts(data) {
     statusChart = new Chart(document.getElementById('statusChart'), {
         type: 'doughnut',
         data: {
-            labels: ['Published', 'Unpublished', 'Archived'], 
-            datasets: [{
-                data: data.status,
-                backgroundColor: ['#34d399', '#f87171', '#facc15']
-            }]
+
+            labels: ['Published', 'Unpublished', 'Archived'],
+            datasets: [{ data: data.status, backgroundColor: ['#34d399', '#f87171', '#facc15'] }]
+
         },
         options: { responsive: true }
     });
@@ -69,10 +55,7 @@ function initCharts(data) {
         type: 'pie',
         data: {
             labels: data.categories.labels,
-            datasets: [{
-                data: data.categories.data,
-                backgroundColor: ['#38bdf8', '#818cf8', '#34d399', '#fb923c']
-            }]
+            datasets: [{ data: data.categories.data, backgroundColor: ['#38bdf8', '#818cf8', '#34d399', '#fb923c'] }]
         },
         options: { responsive: true }
     });
@@ -89,16 +72,11 @@ function updateDashboard(period = 30) {
             document.getElementById('kpi-rating').textContent = data.kpi.rating;
             document.getElementById('kpi-total-trend').textContent = data.kpi.trend;
 
-            if (!usageChart) {
-                initCharts(data);
-            } else {
-                usageChart.data.datasets[0].data = data.usage;
-                usageChart.update();
-                statusChart.data.datasets[0].data = data.status;
-                statusChart.update();
+            if (!usageChart) { initCharts(data); } else {
+                usageChart.data.datasets[0].data = data.usage; usageChart.update();
+                statusChart.data.datasets[0].data = data.status; statusChart.update();
                 categoryChart.data.labels = data.categories.labels;
-                categoryChart.data.datasets[0].data = data.categories.data;
-                categoryChart.update();
+                categoryChart.data.datasets[0].data = data.categories.data; categoryChart.update();
             }
 
             const tbody = document.getElementById('bookTableBody');
@@ -161,6 +139,7 @@ function addBook() {
 }
 
 
+
 function saveEdit() {
     const body = new FormData();
     body.append('id',       document.getElementById('editId').value);
@@ -178,6 +157,81 @@ function saveEdit() {
         });
 }
 
+// ── LESSON DETAIL VIEW ────────────────────────────────────────
+let currentBookId = null;
+
+function showLesson(id, title, author, status, rating, category, filePath) {
+    currentBookId = id;
+
+    document.getElementById('detailId').textContent = '#' + id;
+    document.getElementById('detailTitle').textContent = title;
+    document.getElementById('detailAuthor').textContent = 'by ' + author;
+    document.getElementById('detailCategory').textContent = category || 'N/A';
+    document.getElementById('detailRating').textContent = '★'.repeat(Math.round(rating)) + ' ' + parseFloat(rating).toFixed(1);
+
+    const statusEl = document.getElementById('detailStatus');
+    statusEl.textContent = status;
+    statusEl.className = 'meta-value status ' + status.toLowerCase();
+
+    if (filePath && filePath !== '') {
+        showFile(filePath);
+    } else {
+        document.getElementById('noFileMsg').style.display = 'block';
+        document.getElementById('fileViewer').style.display = 'none';
+    }
+
+    document.getElementById('catalogView').style.display = 'none';
+    document.getElementById('lessonView').style.display = 'block';
+}
+
+function showFile(filePath) {
+    document.getElementById('noFileMsg').style.display = 'none';
+    document.getElementById('fileViewer').style.display = 'block';
+    document.getElementById('lessonFrame').src = filePath;
+    document.getElementById('openFileBtn').href = filePath;
+    document.getElementById('fileNameDisplay').textContent = '📄 ' + filePath.split('/').pop();
+}
+
+function showLesson(id, title, author, status, rating, category, filePath) {
+    currentBookId = id;
+
+    document.getElementById('detailId').textContent = '#' + id;
+    document.getElementById('detailTitle').textContent = title;
+    document.getElementById('detailAuthor').textContent = 'by ' + author;
+    document.getElementById('detailCategory').textContent = category || 'N/A';
+    document.getElementById('detailRating').textContent = '★'.repeat(Math.round(rating)) + ' ' + parseFloat(rating).toFixed(1);
+
+    const statusEl = document.getElementById('detailStatus');
+    statusEl.textContent = status;
+    statusEl.className = 'meta-value status ' + status.toLowerCase();
+
+    // ✅ Just check if path exists, no upload needed
+    if (filePath && filePath !== '') {
+        document.getElementById('noFileMsg').style.display = 'none';
+        document.getElementById('fileViewer').style.display = 'block';
+        document.getElementById('lessonFrame').src = filePath;
+        document.getElementById('openFileBtn').href = filePath;
+        document.getElementById('fileNameDisplay').textContent = '📄 ' + filePath.split('/').pop();
+    } else {
+        document.getElementById('noFileMsg').style.display = 'block';
+        document.getElementById('fileViewer').style.display = 'none';
+    }
+
+    document.getElementById('catalogView').style.display = 'none';
+    document.getElementById('lessonView').style.display = 'block';
+}
+
+function showCatalog() {
+    document.getElementById('lessonView').style.display = 'none';
+    document.getElementById('catalogView').style.display = 'block';
+}
+
+function showCatalog() {
+    document.getElementById('lessonView').style.display = 'none';
+    document.getElementById('catalogView').style.display = 'block';
+    currentBookId = null;
+}
+
 
 // ── MODAL CLOSE ───────────────────────────────────────────────
 function closeModal(id) {
@@ -193,20 +247,29 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('get_catalog.php')
             .then(res => res.json())
             .then(data => {
-                // Populate table
                 data.books.forEach(function(book) {
                     const row = document.createElement('tr');
+                    // ✅ Pass file_path to showLesson
+                    const filePath = book.file_path || '';
                     row.innerHTML = `
                         <td>#${book.id}</td>
                         <td>${book.title}</td>
                         <td>${book.author}</td>
                         <td><span class="status ${book.status.toLowerCase()}">${book.status}</span></td>
-                        <td><button class="${book.status === 'Issued' ? 'not-edit-btn' : 'edit-btn'}">${book.status === 'Issued' ? 'Not Available' : 'Available'}</button></td>
+                        <td>
+                            <button
+                                class="${book.status === 'Issued' ? 'not-edit-btn' : 'edit-btn'}"
+                                ${book.status !== 'Issued'
+                                    ? `onclick="showLesson(${book.id}, '${book.title.replace(/'/g, "\\'")}', '${book.author.replace(/'/g, "\\'")}', '${book.status}', ${book.rating}, '${book.category}', '${filePath}')"`
+                                    : 'disabled'}
+                            >
+                                ${book.status === 'Issued' ? 'Not Available' : 'Available'}
+                            </button>
+                        </td>
                     `;
                     CatalogList.appendChild(row);
                 });
 
-                // Update stat cards
                 const totalbooks = document.getElementById('totalbooks');
                 const totalavailable = document.getElementById('totalavailable');
                 if (totalbooks) totalbooks.innerHTML = "Total Lessons: " + data.total;
