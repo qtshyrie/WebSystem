@@ -258,12 +258,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td><span class="status ${book.status.toLowerCase()}">${book.status}</span></td>
                         <td>
                             <button
-                                class="${book.status === 'Issued' ? 'not-edit-btn' : 'edit-btn'}"
-                                ${book.status !== 'Issued'
+                                class="${book.status === 'Denied' ? 'not-edit-btn' : 'edit-btn'}"
+                                ${book.status !== 'Denied'
                                     ? `onclick="showLesson(${book.id}, '${book.title.replace(/'/g, "\\'")}', '${book.author.replace(/'/g, "\\'")}', '${book.status}', ${book.rating}, '${book.category}', '${filePath}')"`
                                     : 'disabled'}
                             >
-                                ${book.status === 'Issued' ? 'Not Available' : 'Available'}
+                                ${book.status === 'Denied' ? 'Not Available' : 'Available'}
                             </button>
                         </td>
                     `;

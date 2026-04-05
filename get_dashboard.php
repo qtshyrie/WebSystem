@@ -8,7 +8,7 @@ $date_limit = date('Y-m-d', strtotime("-$period days"));
 // KPI Data
 $total = $conn->query("SELECT COUNT(*) as count FROM books")->fetch_assoc()['count'];
 $available = $conn->query("SELECT COUNT(*) as count FROM books WHERE status='Available'")->fetch_assoc()['count'];
-$issued = $conn->query("SELECT COUNT(*) as count FROM books WHERE status='Issued'")->fetch_assoc()['count'];
+$issued = $conn->query("SELECT COUNT(*) as count FROM books WHERE status='Denied'")->fetch_assoc()['count'];
 $rating = $conn->query("SELECT ROUND(AVG(rating),1) as avg FROM books")->fetch_assoc()['avg'] ?? 0;
 
 // KPI previous period for trend
