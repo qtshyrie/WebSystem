@@ -5,54 +5,209 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneAces' Library</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
-    
-        <nav class="sidebar">
-            <h2>OneAces' Library</h2>
-
-    
-            <div class="sidebar-profile" onclick="goProfile()">
-                <div class="avatar" id="avatar"></div>
-                <span id="userDisplay"></span>
-            </div>
-            <ul class="menu">
-                <a href="Index.html"><li>Dashboard</li></a>
-                <a href="LessonCatalog.html"><li class="active">Lessons Catalog</li></a>
-                <a href="Quizzes.html"><li>Quizzes</li></a>
-                <a href="Settings.html"><li>Settings</li></a>
-            </ul>
-
-            <div class="sidebar-logout">
+    <nav class="sidebar">
+        <h2>OneAces</h2>
+        <div class="sidebar-profile" onclick="goProfile()">
+            <div class="avatar" id="avatar"></div>
+            <span id="userDisplay"></span>
+        </div>
+        <ul class="menu">
+            <a href="Index.html"><li>Dashboard</li></a>
+            <a href="LessonCatalog.html"><li class="active">Lessons Catalog</li></a>
+            <a href="Quizzes.html"><li>Quizzes</li></a>
+        </ul>
+        <div class="sidebar-logout">
             <button onclick="logout()">Logout</button>
-            </div>
-        </nav>
-
+        </div>
+    </nav>
+ 
     <main class="main-content">
         <header>
             <h1>Lessons Catalog</h1>
         </header>
-
-        <section class="stats">
-            <div class="card">Total Books: 1,240</div>
-            <div class="card">Issued: 85</div>
-            <div class="card">Overdue: 12</div>
-        </section>
-
-        <table class="book-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="TBody"></tbody>
-        </table>
+ 
+        <!-- CATALOG VIEW -->
+        <div id="catalogView">
+            <section class="stats" id="stats">
+                <div class="card" id="totalbooks">Total Book: None</div>
+                <div class="card" id="totalavailable">Available: None</div>
+            </section>
+ 
+            <table class="book-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="TBody"></tbody>
+            </table>
+        </div>
+ 
+        <!-- LESSON DETAIL VIEW -->
+        <div id="lessonView" style="display:none;">
+            <button class="back-btn" onclick="showCatalog()">← Back to Catalog</button>
+            <div class="lesson-detail">
+                <div class="lesson-detail-header">
+                    <div class="lesson-detail-icon">📚</div>
+                    <div>
+                        <h2 id="detailTitle"></h2>
+                        <p id="detailAuthor" class="detail-author"></p>
+                    </div>
+                </div>
+ 
+                <div class="lesson-detail-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">ID</span>
+                        <span id="detailId" class="meta-value"></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Category</span>
+                        <span id="detailCategory" class="meta-value"></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Status</span>
+                        <span id="detailStatus" class="meta-value"></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Rating</span>
+                        <span id="detailRating" class="meta-value"></span>
+                    </div>
+                </div>
+ 
+                <div class="lesson-detail-body">
+                    <h3>Lesson Material</h3>
+ 
+                    <!-- Shows when no file path set -->
+                    <div id="noFileMsg">
+                        <p>No lesson material available yet.</p>
+                    </div>
+ 
+                    <!-- Shows when file path exists -->
+                    <div id="fileViewer" style="display:none;">
+                        <div class="file-actions">
+                            <span id="fileNameDisplay"></span>
+                            <a id="openFileBtn" target="_blank" class="open-file-btn">🔗 Open Full Screen</a>
+                        </div>
+                        <iframe id="lessonFrame" src="" width="100%" height="600px" style="border:none; border-radius:8px; margin-top:10px;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
+ 
+    <style>
+    .back-btn {
+        background: none;
+        border: 1px solid #38bdf8;
+        color: #38bdf8;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        font-size: 14px;
+        transition: all 0.2s;
+    }
+    .back-btn:hover { background: #38bdf8; color: #0f172a; }
+ 
+    .lesson-detail {
+        background: #fff;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .lesson-detail-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    .lesson-detail-icon {
+        font-size: 48px;
+        background: #f0f9ff;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+    }
+    .lesson-detail-header h2 { font-size: 22px; color: #0f172a; margin-bottom: 4px; }
+    .detail-author { color: #64748b; font-size: 15px; }
+ 
+    .lesson-detail-meta {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+    .meta-item {
+        background: #f8fafc;
+        padding: 16px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .meta-label { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .meta-value { font-size: 15px; font-weight: 600; color: #0f172a; }
+ 
+    .lesson-detail-body { background: #f8fafc; padding: 20px; border-radius: 10px; }
+    .lesson-body-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+    .lesson-body-header h3 { color: #0f172a; font-size: 16px; }
+ 
+    .upload-label {
+        background: #38bdf8;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    .upload-label:hover { background: #0ea5e9; }
+ 
+    .file-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f0f9ff;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        color: #0f172a;
+    }
+    .open-file-btn { color: #38bdf8; text-decoration: none; font-weight: 600; }
+    .open-file-btn:hover { text-decoration: underline; }
+    #noFileMsg p { color: #94a3b8; font-style: italic; }
+    </style>
+ 
     <script src="script.js"></script>
+    <script>
+        // Call loadProfile immediately after script.js loads
+        if (typeof loadProfile === 'function') {
+            loadProfile();
+        } else {
+            // If script.js hasn't loaded yet, wait for it
+            document.addEventListener('DOMContentLoaded', function() {
+                if (typeof loadProfile === 'function') {
+                    loadProfile();
+                }
+            });
+        }
+    </script>
 </body>
 </html>
