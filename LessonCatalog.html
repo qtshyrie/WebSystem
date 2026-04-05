@@ -22,19 +22,19 @@
             <button onclick="logout()">Logout</button>
         </div>
     </nav>
-
+ 
     <main class="main-content">
         <header>
             <h1>Lessons Catalog</h1>
         </header>
-
+ 
         <!-- CATALOG VIEW -->
         <div id="catalogView">
             <section class="stats" id="stats">
                 <div class="card" id="totalbooks">Total Book: None</div>
                 <div class="card" id="totalavailable">Available: None</div>
             </section>
-
+ 
             <table class="book-table">
                 <thead>
                     <tr>
@@ -48,7 +48,7 @@
                 <tbody id="TBody"></tbody>
             </table>
         </div>
-
+ 
         <!-- LESSON DETAIL VIEW -->
         <div id="lessonView" style="display:none;">
             <button class="back-btn" onclick="showCatalog()">← Back to Catalog</button>
@@ -60,7 +60,7 @@
                         <p id="detailAuthor" class="detail-author"></p>
                     </div>
                 </div>
-
+ 
                 <div class="lesson-detail-meta">
                     <div class="meta-item">
                         <span class="meta-label">ID</span>
@@ -79,15 +79,15 @@
                         <span id="detailRating" class="meta-value"></span>
                     </div>
                 </div>
-
+ 
                 <div class="lesson-detail-body">
                     <h3>Lesson Material</h3>
-
+ 
                     <!-- Shows when no file path set -->
                     <div id="noFileMsg">
                         <p>No lesson material available yet.</p>
                     </div>
-
+ 
                     <!-- Shows when file path exists -->
                     <div id="fileViewer" style="display:none;">
                         <div class="file-actions">
@@ -100,7 +100,7 @@
             </div>
         </div>
     </main>
-
+ 
     <style>
     .back-btn {
         background: none;
@@ -114,7 +114,7 @@
         transition: all 0.2s;
     }
     .back-btn:hover { background: #38bdf8; color: #0f172a; }
-
+ 
     .lesson-detail {
         background: #fff;
         border-radius: 16px;
@@ -141,7 +141,7 @@
     }
     .lesson-detail-header h2 { font-size: 22px; color: #0f172a; margin-bottom: 4px; }
     .detail-author { color: #64748b; font-size: 15px; }
-
+ 
     .lesson-detail-meta {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -158,7 +158,7 @@
     }
     .meta-label { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
     .meta-value { font-size: 15px; font-weight: 600; color: #0f172a; }
-
+ 
     .lesson-detail-body { background: #f8fafc; padding: 20px; border-radius: 10px; }
     .lesson-body-header {
         display: flex;
@@ -167,7 +167,7 @@
         margin-bottom: 16px;
     }
     .lesson-body-header h3 { color: #0f172a; font-size: 16px; }
-
+ 
     .upload-label {
         background: #38bdf8;
         color: #fff;
@@ -179,7 +179,7 @@
         transition: background 0.2s;
     }
     .upload-label:hover { background: #0ea5e9; }
-
+ 
     .file-actions {
         display: flex;
         justify-content: space-between;
@@ -194,11 +194,20 @@
     .open-file-btn:hover { text-decoration: underline; }
     #noFileMsg p { color: #94a3b8; font-style: italic; }
     </style>
-        <script>
-        function goProfile() {
-            window.location.href = "profile.html";
+ 
+    <script src="script.js"></script>
+    <script>
+        // Call loadProfile immediately after script.js loads
+        if (typeof loadProfile === 'function') {
+            loadProfile();
+        } else {
+            // If script.js hasn't loaded yet, wait for it
+            document.addEventListener('DOMContentLoaded', function() {
+                if (typeof loadProfile === 'function') {
+                    loadProfile();
+                }
+            });
         }
     </script>
-    <script src="script.js"></script>
 </body>
 </html>

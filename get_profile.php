@@ -2,18 +2,36 @@
 session_start();
 include("conn.php");
 header('Content-Type: application/json');
-
-$username = $_SESSION['username'] ?? '';
-
-if ($username) {
-    $stmt = $conn->prepare("SELECT firstname, lastname, email, contacts FROM accounts WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $row = $stmt->get_result()->fetch_assoc();
-
+ 
+// Check if session username exists
+if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
+    echo json_encode(['success' => false, 'error' => 'User not logged in']);
+    $conn->close();
+    exit();
+}
+ 
+$username = $_SESSION['username'];
+ 
+// Prepare and execute query
+$stmt = $conn->prepare("SELECT firstname, lastname, email, contacts FROM accounts WHERE username = ?");
+ 
+if (!$stmt) {
+    echo json_encode(['success' => false, 'error' => 'Database error: ' . $conn->error]);
+    $conn->close();
+    exit();
+}
+ 
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+ 
+if ($row) {
     echo json_encode(['success' => true, 'data' => $row]);
 } else {
-    echo json_encode(['success' => false]);
+    echo json_encode(['success' => false, 'error' => 'User not found']);
 }
+ 
+$stmt->close();
 $conn->close();
 ?>

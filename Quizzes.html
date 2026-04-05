@@ -3,46 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>oneaces</title>
+    <title>OneAces' Library</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    <script>
-        function goProfile() {
-            window.location.href = "profile.html";
-        }
-    </script>
 </head>
 <body>
     <nav class="sidebar">
-            
         <h2>OneAces</h2>
         <div class="sidebar-profile" onclick="goProfile()">
             <div class="avatar" id="avatar"></div>
             <span id="userDisplay"></span>
         </div>
         <div>
-                <ul class="menu">
-                    <a href="Index.html"><li>Dashboard</li></a>
-                    <a href="LessonCatalog.html"><li>Lessons Catalog</li></a>
-                    <a href="Quizzes.html"><li class="active">Quizzes</li></a>
-                </ul>
+            <ul class="menu">
+                <a href="Index.html"><li>Dashboard</li></a>
+                <a href="LessonCatalog.html"><li>Lessons Catalog</li></a>
+                <a href="Quizzes.html"><li class="active">Quizzes</li></a>
+            </ul>
         </div>
         <div class="sidebar-logout">
-                <button onclick="logout()">Logout</button>
+            <button onclick="logout()">Logout</button>
         </div>
     </nav>
-
+ 
     <main class="main-content">
         <header>
             <h1>Quizzes</h1>
         </header>
-
+ 
         <section class="stats">
-            <div class="card">Total Books: 1,240</div>
-            <div class="card">Issued: 85</div>
-            <div class="card">Overdue: 12</div>
+            <div class="card" id="QZTotalLessons">Total Lessons: 0</div>
+            <div class="card" id="QZTotalAvailable">Total Available: 0</div>
         </section>
-
+ 
         <table class="book-table">
             <thead>
                 <tr>
@@ -53,32 +45,24 @@
                     <th>Action</th>
                 </tr>
             </thead>
-                <tbody>
-                    <tr>
-                        <td>#1021</td>
-                        <td>The Great Gatsby</td>
-                        <td>Jennelyn Tombokon</td>
-                        <td><span>Available</span></td>
-                        <td><button class="edit-btn">Quiz Me</button></td>
-                    </tr>
-                    <tr>
-                        <td>#1022</td>
-                        <td>Project Hail Mary</td>
-                        <td></td>
-                        <td><span>None</span></td>
-                        <td><button class="not-edit-btn">Quiz Me</button></td>
-                    </tr>
-                    <tr>
-                        <td>#1023</td>
-                        <td>Dune</td>
-                        <td>John Gabriel Jeron</td>
-                        <td><span>Available</span></td>
-                        <td><button class="edit-btn">Quiz Me</button></td>
-                    </tr>
-                </tbody>
+            <tbody id="QZTbody"></tbody>
         </table>
     </main>
-    
+ 
     <script src="script.js"></script>
+    <script>
+        // Call loadProfile immediately after script.js loads
+        if (typeof loadProfile === 'function') {
+            loadProfile();
+        } else {
+            // If script.js hasn't loaded yet, wait for it
+            document.addEventListener('DOMContentLoaded', function() {
+                if (typeof loadProfile === 'function') {
+                    loadProfile();
+                }
+            });
+        }
+    </script>
 </body>
 </html>
+

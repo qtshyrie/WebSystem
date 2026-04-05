@@ -90,7 +90,8 @@ button
 
 /* 🔥 THIS PUSHES LOGOUT DOWN */
 .sidebar-logout {
-    margin-top: auto;
+    margin-top: 450px;
+    padding-bottom: 20px;
 }
 
 /* LOGOUT BUTTON STYLE */
