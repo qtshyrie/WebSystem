@@ -11,28 +11,25 @@ $available = $conn->query("SELECT COUNT(*) as count FROM books WHERE status='Ava
 $issued = $conn->query("SELECT COUNT(*) as count FROM books WHERE status='Denied'")->fetch_assoc()['count'];
 $rating = $conn->query("SELECT ROUND(AVG(rating),1) as avg FROM books")->fetch_assoc()['avg'] ?? 0;
 
-// KPI previous period for trend
+// Trend
 $prev_limit = date('Y-m-d', strtotime("-" . ($period * 2) . " days"));
 $prev_total = $conn->query("SELECT COUNT(*) as count FROM books WHERE created_at >= '$prev_limit' AND created_at < '$date_limit'")->fetch_assoc()['count'];
 $curr_total = $conn->query("SELECT COUNT(*) as count FROM books WHERE created_at >= '$date_limit'")->fetch_assoc()['count'];
 $trend = $prev_total > 0 ? round((($curr_total - $prev_total) / $prev_total) * 100) : 0;
 
-// Categories for charts
-$categories = ['Science', 'History', 'Math', 'Literature', 'Tech', 'Arts'];
-$usage = [];
-foreach ($categories as $cat) {
-    $count = $conn->query("SELECT COUNT(*) as count FROM books WHERE category='$cat'")->fetch_assoc()['count'];
-    $usage[] = (int)$count;
+// ✅ Topics chart — fetch real categories from DB dynamically
+$topic_result = $conn->query("SELECT category, COUNT(*) as count FROM books GROUP BY category ORDER BY count DESC");
+$topic_labels = [];
+$topic_data = [];
+while ($row = $topic_result->fetch_assoc()) {
+    $topic_labels[] = $row['category'];
+    $topic_data[] = (int)$row['count'];
 }
 
-// Status chart
-$status_data = [
-    (int)$available,
-    (int)$issued,
-    0 // pending placeholder
-];
+// ✅ Status chart — Available vs Issued
+$status_data = [(int)$available, (int)$issued, 0];
 
-// Top categories pie chart
+// ✅ Top Categories — same as topics but limited to 4
 $cat_result = $conn->query("SELECT category, COUNT(*) as count FROM books GROUP BY category ORDER BY count DESC LIMIT 4");
 $cat_labels = [];
 $cat_data = [];
@@ -48,7 +45,7 @@ while ($row = $books_result->fetch_assoc()) {
     $books[] = $row;
 }
 
-// Activity log
+// ✅ Activity log — fetch latest 5
 $activity_result = $conn->query("SELECT * FROM activity_log ORDER BY created_at DESC LIMIT 5");
 $activities = [];
 while ($row = $activity_result->fetch_assoc()) {
@@ -63,7 +60,8 @@ echo json_encode([
         'rating' => $rating,
         'trend' => ($trend >= 0 ? '+' : '') . $trend . '%'
     ],
-    'usage' => $usage,
+    'usage' => $topic_data,        // ✅ real data
+    'usageLabels' => $topic_labels, // ✅ real labels
     'status' => $status_data,
     'categories' => ['labels' => $cat_labels, 'data' => $cat_data],
     'books' => $books,

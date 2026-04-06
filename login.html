@@ -146,18 +146,6 @@
         </form>
     </div>
 </div>
-<script>
-    function togglePassword(id) {
-        const input = document.getElementById(id);
-        input.type = input.type === "password" ? "text" : "password";
-    }
-
-    // Show error message if redirected with ?error=incorrect
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('error') === 'incorrect') {
-        document.getElementById('errorMsg').textContent = "Username or password is incorrect!";
-    }
-</script>
 <script src="script.js"></script>
 </body>
 </html>

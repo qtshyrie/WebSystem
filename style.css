@@ -90,7 +90,8 @@ button
 
 /* 🔥 THIS PUSHES LOGOUT DOWN */
 .sidebar-logout {
-    margin-top: auto;
+    margin-top: 450px;
+    padding-bottom: 20px;
 }
 
 /* LOGOUT BUTTON STYLE */
@@ -248,10 +249,6 @@ header {
     font-size: 0.85rem;
 }
 
-.available { 
-    background-color: #d4edda; 
-    color: #155724; 
-}
 .issued { 
     background-color: #f8d7da; 
     color: #721c24; 

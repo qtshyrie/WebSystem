@@ -3,6 +3,42 @@ function logout() {
     window.location.href = "landing.html";
 }
 
+// ── LOAD PROFILE ──────────────────────────────────────────────
+function loadProfile() {
+    fetch('get_profile.php')
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && data.data) {
+                const user = data.data;
+                const firstname = user.firstname || '';
+                const lastname = user.lastname || '';
+                const fullname = `${firstname} ${lastname}`.trim();
+                
+                // Set avatar with first letter
+                const avatar = document.getElementById('avatar');
+                if (avatar) {
+                    avatar.textContent = firstname.charAt(0).toUpperCase();
+                    avatar.style.fontSize = '20px';
+                    avatar.style.fontWeight = 'bold';
+                    avatar.style.display = 'flex';
+                    avatar.style.alignItems = 'center';
+                    avatar.style.justifyContent = 'center';
+                }
+                
+                // Set user display name
+                const userDisplay = document.getElementById('userDisplay');
+                if (userDisplay) {
+                    userDisplay.textContent = fullname;
+                }
+            }
+        })
+        .catch(err => console.error('Profile fetch error:', err));
+}
+
+function goProfile() {
+    window.location.href = "profile.html";
+}
+
 function togglePassword(id) {
     const input = document.getElementById(id);
     input.type = input.type === "password" ? "text" : "password";
@@ -241,42 +277,45 @@ function closeModal(id) {
 // ── INIT ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function () {
 
+    // ── LOAD PROFILE ──────────────────────────────────────────
+    loadProfile();
+
     // ── LESSON CATALOG ────────────────────────────────────────
     const CatalogList = document.getElementById('TBody');
-    if (CatalogList) {
-        fetch('get_catalog.php')
-            .then(res => res.json())
-            .then(data => {
-                data.books.forEach(function(book) {
-                    const row = document.createElement('tr');
-                    // ✅ Pass file_path to showLesson
-                    const filePath = book.file_path || '';
-                    row.innerHTML = `
-                        <td>#${book.id}</td>
-                        <td>${book.title}</td>
-                        <td>${book.author}</td>
-                        <td><span class="status ${book.status.toLowerCase()}">${book.status}</span></td>
-                        <td>
-                            <button
-                                class="${book.status === 'Denied' ? 'not-edit-btn' : 'edit-btn'}"
-                                ${book.status !== 'Denied'
-                                    ? `onclick="showLesson(${book.id}, '${book.title.replace(/'/g, "\\'")}', '${book.author.replace(/'/g, "\\'")}', '${book.status}', ${book.rating}, '${book.category}', '${filePath}')"`
-                                    : 'disabled'}
-                            >
-                                ${book.status === 'Denied' ? 'Not Available' : 'Available'}
-                            </button>
-                        </td>
-                    `;
-                    CatalogList.appendChild(row);
-                });
+        if (CatalogList) {
+            fetch('get_catalog.php')
+                .then(res => res.json())
+                .then(data => {
+                    data.books.forEach(function(book) {
+                        const row = document.createElement('tr');
+                        // ✅ Pass file_path to showLesson
+                        const filePath = book.file_path || '';
+                        row.innerHTML = `
+                            <td>#${book.id}</td>
+                            <td>${book.title}</td>
+                            <td>${book.author}</td>
+                            <td><span class="status ${book.status.toLowerCase()}">${book.status}</span></td>
+                            <td>
+                                <button
+                                    class="${book.status === 'Denied' ? 'not-edit-btn' : 'edit-btn'}"
+                                    ${book.status !== 'Denied'
+                                        ? `onclick="showLesson(${book.id}, '${book.title.replace(/'/g, "\\'")}', '${book.author.replace(/'/g, "\\'")}', '${book.status}', ${book.rating}, '${book.category}', '${filePath}')"`
+                                        : 'disabled'}
+                                >
+                                    ${book.status === 'Denied' ? 'Not Available' : 'Available'}
+                                </button>
+                            </td>
+                        `;
+                        CatalogList.appendChild(row);
+                    });
 
                 const totalbooks = document.getElementById('totalbooks');
                 const totalavailable = document.getElementById('totalavailable');
                 if (totalbooks) totalbooks.innerHTML = "Total Lessons: " + data.total;
                 if (totalavailable) totalavailable.innerHTML = "Total Available: " + data.available;
             })
-            .catch(err => console.error('Catalog fetch error:', err));
-    }
+                .catch(err => console.error('Catalog fetch error:', err));
+        }
 
     // ── MODAL CLOSE ───────────────────────────────────────────
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
@@ -295,5 +334,42 @@ document.addEventListener('DOMContentLoaded', function () {
     // ── DASHBOARD ─────────────────────────────────────────────
     if (document.getElementById('bookTableBody')) {
         updateDashboard(30);
+    }
+
+    // ── QUIZZES CATALOG ───────────────────────────────────────
+    const QZCatalogList = document.getElementById('QZTbody');
+    if (QZCatalogList) {
+        fetch('get_quizzes.php')
+            .then(res => res.json())
+            .then(data => {
+                data.quizzes.forEach(function(quiz) {
+                    const row = document.createElement('tr');
+                    const filePath = quiz.path || '';
+                    row.innerHTML = `
+                        <td>#${quiz.id}</td>
+                        <td>${quiz.title}</td>
+                        <td>${quiz.author}</td>
+                        <td><span class="status ${quiz.status.toLowerCase()}">${quiz.status}</span></td>
+                        <td>
+                            <button
+                                class="${quiz.status === 'Not Available' ? 'not-edit-btn' : 'edit-btn'}"
+                                ${quiz.status === 'Available'
+                                    ? `onclick="window.open('${filePath}', '_blank')"`
+                                    : 'disabled'}
+                            >
+                                ${quiz.status === 'Available' ? 'Quiz Me' : 'Not Available'}
+                            </button>
+                        </td>
+                    `;
+                    QZCatalogList.appendChild(row);
+                });
+
+                const qztotalbooks = document.getElementById('QZTotalLessons');
+                const qztotalavailable = document.getElementById('QZTotalAvailable');
+
+                if (qztotalbooks) qztotalbooks.innerHTML = "Total Lessons: " + data.qztotal;
+                if (qztotalavailable) qztotalavailable.innerHTML = "Total Available: " + data.qzavailable;
+            })
+            .catch(err => console.error('Quiz fetch error:', err));
     }
 });
