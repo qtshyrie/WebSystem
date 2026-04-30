@@ -80,6 +80,9 @@
             color: #4ade80;
             margin-top: 10px;
         }
+        p{
+            color: red;
+        }
     </style>
 </head>
 
@@ -100,32 +103,44 @@
         <input id="contact" placeholder="Contact Number">
 
         <button onclick="saveProfile()">Save Changes</button>
-
+        <a href="Index.html">,<center> <p>Back</p> </center></a>
         <p class="success" id="msg"></p>
     </div>
 </div>
 
 <script>
-const user = sessionStorage.getItem("currentUser");
-const data = JSON.parse(localStorage.getItem(user));
-
-document.getElementById("firstName").value = data.firstName;
-document.getElementById("lastName").value = data.lastName;
-document.getElementById("email").value = data.email;
-document.getElementById("contact").value = data.contact;
+fetch('get_profile.php')
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      document.getElementById("firstName").value = data.data.firstname;
+      document.getElementById("lastName").value  = data.data.lastname;
+      document.getElementById("email").value     = data.data.email;
+      document.getElementById("contact").value   = data.data.contacts;
+    } else {
+      window.location.href = "login.html"; // redirect if not logged in
+    }
+  });
 
 function saveProfile() {
-    data.firstName = document.getElementById("firstName").value;
-    data.lastName = document.getElementById("lastName").value;
-    data.email = document.getElementById("email").value;
-    data.contact = document.getElementById("contact").value;
+  const body = new URLSearchParams({
+    firstName: document.getElementById("firstName").value,
+    lastName:  document.getElementById("lastName").value,
+    email:     document.getElementById("email").value,
+    contact:   document.getElementById("contact").value,
+  });
 
-    localStorage.setItem(user, JSON.stringify(data));
-
-    sessionStorage.setItem("fullName", data.firstName + " " + data.lastName);
-
-    document.getElementById("msg").textContent = "Saved successfully!";
-}
+  fetch('update_profile.php', { method: 'POST', body })
+  .then(res => res.json())
+  .then(data => {
+    const msg = document.getElementById("msg");
+    msg.textContent = data.success ? "Saved successfully!" : "Error: " + data.error;
+    
+    setTimeout(() => {
+      msg.textContent = "";
+    }, 2000);
+});
+}   
 </script>
 
 </body>

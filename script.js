@@ -8,7 +8,7 @@ function loadProfile() {
     fetch('get_profile.php')
         .then(res => res.json())
         .then(data => {
-            if (data.success && data.data) {
+            if (data.success || data.data) {
                 const user = data.data;
                 const firstname = user.firstname || '';
                 const lastname = user.lastname || '';
